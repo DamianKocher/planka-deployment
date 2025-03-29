@@ -29,7 +29,7 @@ services:
     ports:
       - "8080:1337"
     environment:
-      - BASE_URL=http://localhost:80
+      - BASE_URL=https://project.stldsa.org
       - DATABASE_URL=postgresql://postgres@postgres/planka
 
       - DEFAULT_ADMIN_EMAIL=tech@stldsa.org
