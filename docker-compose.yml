@@ -1,0 +1,60 @@
+volumes:
+  user-avatars:
+  project-background-images:
+  attachments:
+  db-data:
+
+services:
+  proxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./server.crt:/etc/ssl/crt/server.crt
+      - ./server.key:/etc/ssl/crt/server.key
+    restart: always
+    depends_on:
+      - planka
+
+  planka:
+    image: ghcr.io/plankanban/planka:latest
+    restart: on-failure
+    volumes:
+      - user-avatars:/app/public/user-avatars
+      - project-background-images:/app/public/project-background-images
+      - attachments:/app/private/attachments
+    ports:
+      - "8080:1337"
+    environment:
+      - BASE_URL=http://localhost:80
+      - DATABASE_URL=postgresql://postgres@postgres/planka
+
+      - DEFAULT_ADMIN_EMAIL=tech@stldsa.org
+      - DEFAULT_ADMIN_NAME=Administrator
+      - DEFAULT_ADMIN_USERNAME=admin
+
+      - OIDC_ISSUER=https://slack.com
+      - OIDC_CLIENT_ID=1010101779940.8666214656451
+      - OIDC_ENFORCED=false
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=planka
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
