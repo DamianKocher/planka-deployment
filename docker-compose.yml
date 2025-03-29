@@ -39,7 +39,7 @@ services:
       - OIDC_ISSUER=https://slack.com
       - OIDC_CLIENT_ID=1010101779940.8666214656451
       - OIDC_IGNORE_ROLES=true
-      - OIDC_ENFORCED=false
+      - OIDC_ENFORCED=true
     env_file:
       - .env
     depends_on:
