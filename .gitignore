@@ -1,2 +1,4 @@
 .idea
 .env
+server.crt
+server.key
