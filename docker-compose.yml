@@ -20,7 +20,7 @@ services:
       - planka
 
   planka:
-    image: ghcr.io/damiankocher/planka:dev@sha256:014ad08a0fc71a62e91d9f98a3726736c180d105f85e9c4da1b83552ecc1a063
+    image: ghcr.io/damiankocher/planka:dev@sha256:7d28185bef1f5c24cad01d7e20c21526b7bcf6368e2517b40e6f72814f5417bf
     restart: on-failure
     volumes:
       - user-avatars:/app/public/user-avatars
