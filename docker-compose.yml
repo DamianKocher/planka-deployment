@@ -18,9 +18,19 @@ services:
     restart: always
     depends_on:
       - planka
+      - ticket-bot
+
+  ticket-bot:
+    image: ghcr.io/damiankocher/ticket-bot:sha256-47ef024a2406f4a0fa43d06663cb6a8194336965515557f5be89d253a145d249.sig
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      planka:
+        condition: service_healthy
 
   planka:
-    image: ghcr.io/damiankocher/planka:dev@sha256:7d28185bef1f5c24cad01d7e20c21526b7bcf6368e2517b40e6f72814f5417bf
+    image: ghcr.io/damiankocher/planka:dev@sha256:5632a64e118214b9c838ca12763b239aa99f7c0c9cbbdf4ce360437ddb203584
     restart: on-failure
     volumes:
       - user-avatars:/app/public/user-avatars
