@@ -21,7 +21,7 @@ services:
       - ticket-bot
 
   ticket-bot:
-    image: ghcr.io/damiankocher/ticket-bot:sha256-47ef024a2406f4a0fa43d06663cb6a8194336965515557f5be89d253a145d249.sig
+    image: ghcr.io/damiankocher/ticket-bot:main@sha256:47ef024a2406f4a0fa43d06663cb6a8194336965515557f5be89d253a145d249
     restart: on-failure
     env_file:
       - .env
